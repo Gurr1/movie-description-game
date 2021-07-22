@@ -14,13 +14,19 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final ImdbScraperService imdbScraperService;
+    private final ImdbDatasetService imdbDatasetService;
 
-    public MovieService(MovieRepository movieRepository, ImdbScraperService imdbScraperService) {
+    public MovieService(MovieRepository movieRepository,
+                        ImdbScraperService imdbScraperService,
+                        ImdbDatasetService imdbDatasetService) {
         this.movieRepository = movieRepository;
         this.imdbScraperService = imdbScraperService;
+        this.imdbDatasetService = imdbDatasetService;
     }
 
-    public boolean updateMovies(Map<String, Title> titles, Map<String, Rating> ratingsMap) {
+    public void updateMovies() throws {
+        Map<String, Rating> ratingsMap = imdbDatasetService.getRatings();
+        Map<String, Title> titles = imdbDatasetService.getTitles();
         List<Movie> movies = new ArrayList<>();
         titles.forEach((id, title) -> {
             Rating rating = ratingsMap.get(id);
@@ -28,7 +34,6 @@ public class MovieService {
             movies.add(movie);
         });
         movieRepository.saveAll(movies);
-        return true;
     }
 
     public Movie createMovieObject(Title title, Rating rating) {
