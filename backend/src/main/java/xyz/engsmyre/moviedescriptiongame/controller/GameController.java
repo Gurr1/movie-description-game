@@ -14,11 +14,11 @@ public class GameController {
     @MessageMapping("/new")     // TODO This should in a multiplayer version be an @DestinationVariable Instead.
     @SendTo("/topic/new_game")
     public ResponseEntity<String> startNewGame() throws Exception {      // TODO FIX So it's not string.
-
+        return null;
     }
 
     @GetMapping("/")
-    public ResponseEntity<> nextQuestion() {
-
+    public ResponseEntity<String> nextQuestion() {
+        return null;
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import xyz.engsmyre.moviedescriptiongame.service.MovieService;
+import xyz.engsmyre.moviedescriptiongame.tmdb.service.MovieService;
 
 @RestController
 @RequestMapping("/update")
@@ -17,7 +17,7 @@ public class AdminController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<String> fetchUpdate() {
         movieService.updateMovies();
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
