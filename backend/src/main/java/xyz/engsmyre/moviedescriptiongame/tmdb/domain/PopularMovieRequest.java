@@ -14,7 +14,7 @@ public class PopularMovieRequest {
         this.voteCount = voteCount;
     }
 
-    public PopularMovieRequest( String apiKey) {
+    public PopularMovieRequest(String apiKey, int voteCount) {
         this.apiKey = apiKey;
     }
 

@@ -6,10 +6,17 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import xyz.engsmyre.moviedescriptiongame.service.GameService;
 
 @RequestMapping("/game")
 @Controller
 public class GameController {
+
+    private GameService gameService;
+
+    public GameController(GameService gameService) {
+        this.gameService = gameService;
+    }
 
     @MessageMapping("/new")     // TODO This should in a multiplayer version be an @DestinationVariable Instead.
     @SendTo("/topic/new_game")
@@ -19,6 +26,7 @@ public class GameController {
 
     @GetMapping("/")
     public ResponseEntity<String> nextQuestion() {
+        gameService.nextMovie();
         return null;
     }
 }
