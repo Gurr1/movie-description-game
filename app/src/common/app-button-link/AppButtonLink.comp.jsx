@@ -6,10 +6,10 @@ const NonStyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const AppButtonLink = ({ link, children }) => {
+const AppButtonLink = ({ link, children, onClick }) => {
   return (
     <NonStyledLink to={link}>
-      <AppButton>{children}</AppButton>
+      <AppButton onClick={onClick}>{children}</AppButton>
     </NonStyledLink>
   );
 };

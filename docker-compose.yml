@@ -1,0 +1,16 @@
+version: "2.0"
+
+services:
+  redis:
+    image: redis:5.0
+    ports:
+      - "6379:6379"
+  frontend:
+    build:
+      context: app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./app/src:/usr/src/app/src"
+      - "./app/public:/usr/src/app/public"

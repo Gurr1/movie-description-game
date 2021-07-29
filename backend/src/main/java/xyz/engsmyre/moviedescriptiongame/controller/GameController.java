@@ -1,9 +1,11 @@
 package xyz.engsmyre.moviedescriptiongame.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.engsmyre.moviedescriptiongame.service.GameService;
@@ -19,14 +21,13 @@ public class GameController {
     }
 
     @MessageMapping("/new")     // TODO This should in a multiplayer version be an @DestinationVariable Instead.
-    @SendTo("/topic/new_game")
+    @SendTo("/topic/new")
     public ResponseEntity<String> startNewGame() throws Exception {      // TODO FIX So it's not string.
         return null;
     }
 
     @GetMapping("/")
     public ResponseEntity<String> nextQuestion() {
-        gameService.nextMovie();
-        return null;
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

@@ -1,4 +1,3 @@
-targetCompatibility = JavaVersion.VERSION_16
 plugins {
     id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -21,6 +20,7 @@ dependencies {
     implementation group: 'redis.clients', name: 'jedis', version: '3.3.0'
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.8'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '2.5.3'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.3'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

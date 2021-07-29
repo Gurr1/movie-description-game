@@ -6,7 +6,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 @Configuration
-public class appConfig {
+public class RedisConfig {
 
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {

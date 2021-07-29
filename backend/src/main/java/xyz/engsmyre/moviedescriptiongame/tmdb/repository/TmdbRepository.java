@@ -14,9 +14,9 @@ import java.util.List;
 @Component
 public class TmdbRepository implements MovieRepository {
 
-    @Value("@{tmdb.api_key}")
+    @Value("${tmdb.api_key}")
     private String apiKey;
-    @Value("@{tmdb.minimum_vote_count}")    // TODO should not be set by an environment variable, but by difficulty.
+    @Value("${tmdb.minimum_vote_count}")    // TODO should not be set by an environment variable, but by difficulty.
     private int voteCount;      // Vote count is used to determine if a movie is considerred "known"
     private final WebClient tmdbWebClient;
 
