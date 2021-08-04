@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "sockjs": "^0.3.21",
-    "sockjs-client": "^1.5.1"
-  }
-}

@@ -1,8 +1,26 @@
-import * as SockJs from "sockjs-client";
+import connectToWebsocket from "../stomp/webSocketConnection";
+
+let stompClient;
 
 const startNewGame = function (sessionKey) {
-    const socket = new SockJs("http://localhost:8080/gs-guide-websockets")
-    console.log(socket);
+    stompClient = connectToWebsocket();
+    stompClient.onConnect = (frame) => {
+        stompClient.subscribe("/topic/game", handleCallback);
+        stompClient.publish({
+           destination: "/app/next_description",
+            body: "hej",
+            skipContentLengthHeader: true
+        });
+    }
+    console.log(stompClient);
+}
+
+const handleCallback = function (message) {
+    console.log("received message");
+    console.log(message)
+    if (message.body) {
+        console.log(message.body);
+    }
 }
 
 export default startNewGame;

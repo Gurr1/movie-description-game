@@ -8,9 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import xyz.engsmyre.moviedescriptiongame.dto.MovieDescription;
 import xyz.engsmyre.moviedescriptiongame.service.GameService;
+import xyz.engsmyre.moviedescriptiongame.tmdb.domain.Movie;
 
-@RequestMapping("/game")
 @Controller
 public class GameController {
 
@@ -21,13 +22,17 @@ public class GameController {
     }
 
     @MessageMapping("/new")     // TODO This should in a multiplayer version be an @DestinationVariable Instead.
-    @SendTo("/topic/new")
-    public ResponseEntity<String> startNewGame() throws Exception {      // TODO FIX So it's not string.
-        return null;
+    @SendTo("/topic/game")
+    public String startNewGame() throws Exception {      // TODO FIX So it's not string.
+        return "started new game";
     }
 
-    @GetMapping("/")
-    public ResponseEntity<String> nextQuestion() {
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @MessageMapping("/next_description")
+    @SendTo("/topic/game")
+    public MovieDescription nextQuestion() {
+        //this.gameService.nextMovie();
+        MovieDescription description = this.gameService.getMovieDescription();
+        System.out.println(description);
+        return description;
     }
 }

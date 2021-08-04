@@ -22,7 +22,6 @@ public class GameService {
      */
     public void nextMovie() {   // TODO Store movie details in redis
         Movie nextMovie = movieService.getRandomMovie();
-
     }
 
     /**
@@ -31,6 +30,6 @@ public class GameService {
      * @return The description of the current movie for the session
      */
     public MovieDescription getMovieDescription() {
-        return null;
+        return new MovieDescription("another action movie");
     }
 }
