@@ -5,8 +5,8 @@ import org.springframework.util.MultiValueMap;
 
 public class PopularMovieRequest {
     private final String apiKey;
-    private int page;
-    private int voteCount;
+    private final int page;
+    private final int voteCount;
 
     public PopularMovieRequest(String apiKey, int page, int voteCount) {
         this.apiKey = apiKey;
@@ -16,6 +16,8 @@ public class PopularMovieRequest {
 
     public PopularMovieRequest(String apiKey, int voteCount) {
         this.apiKey = apiKey;
+        this.page = 1;
+        this.voteCount = voteCount;
     }
 
     public MultiValueMap<String, String> createParamsMap() {

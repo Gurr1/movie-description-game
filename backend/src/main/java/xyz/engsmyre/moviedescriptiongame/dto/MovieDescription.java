@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public record MovieDescription(String description) {
 
-    public String description() {
+    public String getDescription() {
         return description;
     }
 }

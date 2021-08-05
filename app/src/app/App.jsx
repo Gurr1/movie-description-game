@@ -25,7 +25,7 @@ const App = () => {
       </Header>
       <main>
         <Switch>
-          <Route path="/play" component={Guess} />
+          <Route path="/play" component={Guess}/>
           <Route exact component={Home} />
         </Switch>
       </main>

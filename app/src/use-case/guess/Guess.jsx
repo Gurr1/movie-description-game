@@ -28,9 +28,7 @@ const Guess = () => {
     <Movie>
       <CardTitle>What's the movie?</CardTitle>
       <MovieDescription>
-        Eight years after the Joker's reign of anarchy, Batman, with the help of
-        the enigmatic Catwoman, is forced from his exile to save Gotham City
-        from the brutal guerrilla terrorist Bane.
+          testing
       </MovieDescription>
       <Divider />
       <MovieAutocomplete

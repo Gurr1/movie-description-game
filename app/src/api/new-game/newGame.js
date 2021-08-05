@@ -1,23 +1,24 @@
 import connectToWebsocket from "../stomp/webSocketConnection";
+import { useState } from "react"
+import axios from "axios";
 
 let stompClient;
 
-const startNewGame = function (sessionKey) {
+const startNewGame = function () {
     stompClient = connectToWebsocket();
     stompClient.onConnect = (frame) => {
-        stompClient.subscribe("/topic/game", handleCallback);
-        stompClient.publish({
-           destination: "/app/next_description",
-            body: "hej",
-            skipContentLengthHeader: true
-        });
+        axios.get("http://localhost:8080/game/new")
+            .then((response) => {
+                let gameId = response.data.gameId;
+                stompClient.subscribe(`/topic/game/${gameId}`, handleCallback);
+            })
     }
     console.log(stompClient);
 }
 
 const handleCallback = function (message) {
     console.log("received message");
-    console.log(message)
+    console.log(message);
     if (message.body) {
         console.log(message.body);
     }

@@ -28,8 +28,8 @@ public class TmdbRepository implements MovieRepository {
     public List<Movie> getPopularMoviesFromPage(int page) throws TmdbCommunicationFailedException{
         MultiValueMap<String, String> webClientParams = new PopularMovieRequest(
                 apiKey,
-                voteCount,
-                page
+                page,
+                voteCount
         ).createParamsMap();
         try {
            TmdbMovieResponse movieResponse = doBlockingDiscoveryRequest(webClientParams);
