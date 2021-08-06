@@ -27,7 +27,7 @@ public class GameController {
 
     @GetMapping("/new")
     public ResponseEntity<GameId> startNewGameInstance() {
-        GameId newGameId = this.gameService.generateNewGameId();
+        GameId newGameId = this.gameService.generateNewGame();
         return new ResponseEntity<>(newGameId, HttpStatus.ACCEPTED); // TODO Generate instance code.
     }
 
@@ -39,8 +39,8 @@ public class GameController {
 
     @MessageMapping("/next_description")
     @SendTo("/topic/game/{gameId}")
-    public MovieDescription nextQuestion() {
-        this.gameService.nextMovie();
+    public MovieDescription nextQuestion(@DestinationVariable GameId id) {
+        this.gameService.nextMovie(id);
         MovieDescription description = this.gameService.getMovieDescription();
         System.out.println(description);
         return description;
