@@ -1,14 +1,13 @@
 package xyz.engsmyre.moviedescriptiongame.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Service;
 import xyz.engsmyre.moviedescriptiongame.db.GameSessionMovies;
 import xyz.engsmyre.moviedescriptiongame.db.MovieStorage;
-import xyz.engsmyre.moviedescriptiongame.dto.GameId;
+import xyz.engsmyre.moviedescriptiongame.dto.gameId.GameId;
 import xyz.engsmyre.moviedescriptiongame.dto.MovieDescription;
 import xyz.engsmyre.moviedescriptiongame.repository.GameSessionRepository;
 import xyz.engsmyre.moviedescriptiongame.repository.MovieStoreRepository;
@@ -31,11 +30,14 @@ public class GameService {
         this.gameSessionRepository = gameSessionRepository;
     }
 
-    public GameId generateNewGame() {
-        GameId gameId = new GameId(UUID.randomUUID());
-        GameSessionMovies sessionMovies = new GameSessionMovies(gameId);
+    public GameId generateNewGameId() {
+        return new GameId(UUID.randomUUID());
+        // TODO In multiplayer, the ids should be stored and generated as 5-6 char code and mapped internally to the UUID
+    }
+
+    public void generateNewGame(GameId gameId) {
+        GameSessionMovies sessionMovies = new GameSessionMovies(gameId.gameId());
         gameSessionRepository.save(sessionMovies);
-        return gameId;       // TODO In multiplayer, the ids should be stored and generated as 5-6 char code.
     }
 
     // TODO Should take which the current session is
@@ -48,7 +50,8 @@ public class GameService {
         Movie nextMovie = movieService.getRandomMovie();
         MovieStorage movieWithStorageKey = new MovieStorage(nextMovie, "test");
         movieStoreRepository.save(movieWithStorageKey);
-        GameSessionMovies gameSession = gameSessionRepository.findById(gameSessionId)
+        System.out.println(gameSessionRepository.findAll());
+        GameSessionMovies gameSession = gameSessionRepository.findById(gameSessionId.gameId())
                 .orElseThrow();
         GameSessionMovies updatedGameSession = new GameSessionMovies(gameSession, movieWithStorageKey);
         this.gameSessionRepository.save(updatedGameSession);

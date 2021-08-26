@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Card, CardTitle } from "../../common/styling";
 import AppButtonLink from "../../common/app-button-link";
-import startNewGame from "../../api/new-game/newGame";
+import { startNewGame } from "../../api/gameCommunication/websocketGameSetup";
 
 const Info = styled(Card)`
   display: grid;
@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <Info>
       <CardTitle>Play play play</CardTitle>
-      <AppButtonLink link={"play"} onClick={startNewGame}>Start a game</AppButtonLink>
+      <AppButtonLink link={"play"} onClick={startNewGame} >Start a game</AppButtonLink>
     </Info>
   );
 };

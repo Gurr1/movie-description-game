@@ -1,23 +1,31 @@
 package xyz.engsmyre.moviedescriptiongame.db;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
-import xyz.engsmyre.moviedescriptiongame.dto.GameId;
 
-public final class GameSessionMovies {
-    private final List<MovieStorage> movies;
+@RedisHash("Session")
+public class GameSessionMovies implements Serializable {
     @Id
     @Indexed
-    private final GameId sessionId;
+    private UUID sessionId;
+    private List<MovieStorage> movies;
 
-    public GameSessionMovies(GameId sessionId) {
-        this(new ArrayList<MovieStorage>(), sessionId);
+    GameSessionMovies() {
+        if (this.movies == null) {
+            this.movies = new ArrayList<>();
+        }
     }
 
-    public GameSessionMovies(List<MovieStorage> movies, GameId sessionId) {
+    public GameSessionMovies(UUID sessionId) {
+        this(new ArrayList<>(), sessionId);
+    }
+
+    public GameSessionMovies(List<MovieStorage> movies, UUID sessionId) {
         this.movies = movies;
         this.sessionId = sessionId;
     }
@@ -33,9 +41,15 @@ public final class GameSessionMovies {
         return movies;
     }
 
-    public GameId getSessionId() {
+    public UUID getSessionId() {
         return sessionId;
     }
 
-
+    @Override
+    public String toString() {
+        return "GameSessionMovies{" +
+                "sessionId=" + sessionId +
+                ", movies=" + movies +
+                '}';
+    }
 }

@@ -4,6 +4,7 @@ import MovieAutocomplete from "./movie-autocomplete";
 import AppButton from "../../common/app-button";
 import Divider from "@material-ui/core/Divider";
 import { Card, CardTitle } from "../../common/styling";
+import { subscribeToGameUpdates } from "../../api/gameCommunication/websocketGameSetup";
 
 const Movie = styled(Card)`
   display: grid;
@@ -21,27 +22,42 @@ const MovieDescription = styled.p`
   padding-left: 1.5rem;
 `;
 
-const Guess = () => {
-  const [movieSelected, setMovieSelected] = useState(null);
+class Guess extends React.Component {
 
-  return (
-    <Movie>
-      <CardTitle>What's the movie?</CardTitle>
-      <MovieDescription>
-          testing
-      </MovieDescription>
-      <Divider />
-      <MovieAutocomplete
-        movie={movieSelected}
-        onMovieChanged={(movie) => setMovieSelected(movie)}
-      />
-      <AppButton disabled={movieSelected == null}>
-        {movieSelected == null
-          ? "Select movie to answer"
-          : "Answer " + movieSelected.name}
-      </AppButton>
-    </Movie>
-  );
+    constructor(props) {
+        super(props);
+        this.state = {
+            movieDescription: "Testing1234"
+        }
+    }
+
+    componentDidMount() {
+        subscribeToGameUpdates(this.updateOnGameChange);
+    }
+
+    updateOnGameChange = (newDescription) => {
+
+        this.setState({
+            movieDescription: newDescription
+        });
+    }
+
+    render() {
+        return (
+            <Movie>
+                <CardTitle>What's the movie?</CardTitle>
+                <MovieDescription>
+                    {this.state.movieDescription}
+                </MovieDescription>
+                <Divider/>
+                <MovieAutocomplete
+                />
+                <AppButton>
+                    {"Select movie to answer"}
+                </AppButton>
+            </Movie>
+        );
+    }
 };
 
 export default Guess;

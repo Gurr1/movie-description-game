@@ -1,12 +1,19 @@
 import createStompClient from "./websocketStompConfig";
 
+let client;
+
+const getWebSocketConnection = function () {
+    return client;
+}
+
 const connectToWebsocket = function () {
-    const client = createStompClient();
+    client = createStompClient();
     client.onStompError = function (frame) {
         console.log("failed to connect to stomp server");
     }
     client.activate();
+
     return client;
 }
 
-export default connectToWebsocket;
+export {connectToWebsocket, getWebSocketConnection};
