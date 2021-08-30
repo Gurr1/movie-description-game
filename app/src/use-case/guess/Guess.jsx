@@ -27,18 +27,18 @@ class Guess extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieDescription: "Testing1234"
-        }
+            movieDescription: "Placeholder description"
+        };
     }
 
     componentDidMount() {
         subscribeToGameUpdates(this.updateOnGameChange);
     }
 
-    updateOnGameChange = (newDescription) => {
-
+    updateOnGameChange = (response) => {
+        const responseObject = JSON.parse(response)
         this.setState({
-            movieDescription: newDescription
+            movieDescription: responseObject.description
         });
     }
 

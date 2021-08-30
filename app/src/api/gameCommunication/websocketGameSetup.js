@@ -13,17 +13,14 @@ const startNewGame = function () {
             .then((response) => {
                 gameId = response.data.gameId;
                 stompClient.subscribe(`/topic/game/${gameId}`, handleGameUpdate);
-                console.log(stompClient);
                 requestNextMovie(gameId);
             });
     }
 }
 
 const handleGameUpdate = function (message) {
-    console.log("handling next movie");
     if (message.body != null) {
         gameSubsribers.forEach((sub) => {
-            console.log(message);
             sub.updateFunction(message.body);
         });
     }
