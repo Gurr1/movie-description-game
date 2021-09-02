@@ -26,34 +26,30 @@ class TmdbRepository(private val tmdbWebClient: WebClient) : MovieRepository {
             page,
             voteCount
         ).createParamsMap()
-        try {
-            val movieResponse = doBlockingDiscoveryRequest(webClientParams)
-            if (movieResponse != null) {
-                return movieResponse.movies!!
-            }
-            throw TmdbCommunicationFailedException("Could not communicate or deserialize response from TMDB")
-        } catch (e: Exception) {
-            throw TmdbCommunicationFailedException(e)
-        }
+        return doBlockingDiscoveryRequest(webClientParams).movies!!
     }
 
-    // https://api.themoviedb.org/3/discover/movie?api_key={api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&vote_count.gte=3000
     @get:Throws(TmdbCommunicationFailedException::class)
     override val popularMoviesPageCount: Int
         get() {
             val webClientParams = PopularMovieRequest(apiKey!!, voteCount).createParamsMap()
-            try {
-                val movieResponse = doBlockingDiscoveryRequest(webClientParams)
-                if (movieResponse != null) {
-                    return movieResponse.getnPages()
-                }
-                throw TmdbCommunicationFailedException("Could not communicate or deserialize response from TMDB")
-            } catch (e: Exception) {
-                throw TmdbCommunicationFailedException(e.message)
-            }
+            return doBlockingDiscoveryRequest(webClientParams).getnPages()
         }
 
-    private fun doBlockingDiscoveryRequest(webClientParams: MultiValueMap<String, String>): TmdbMovieResponse? {
+
+    private fun doBlockingDiscoveryRequest(webClientParams: MultiValueMap<String, String>): TmdbMovieResponse {
+        try {
+            val movieResponse = createBlockingDiscoveryRequest(webClientParams)
+            if (movieResponse != null) {
+                return movieResponse
+            }
+            throw TmdbCommunicationFailedException("Could not communicate or deserialize response from TMDB")
+        } catch (e: Exception) {
+            throw TmdbCommunicationFailedException(e.message)
+        }
+    }
+
+    private fun createBlockingDiscoveryRequest(webClientParams: MultiValueMap<String, String>): TmdbMovieResponse? {
         return tmdbWebClient.get()
             .uri { uriBuilder: UriBuilder -> uriBuilder.queryParams(webClientParams).build() }
             .retrieve()

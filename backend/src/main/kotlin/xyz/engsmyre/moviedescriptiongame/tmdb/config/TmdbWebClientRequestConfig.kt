@@ -3,7 +3,6 @@ package xyz.engsmyre.moviedescriptiongame.tmdb.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
-import java.util.Map
 
 @Configuration
 open class TmdbWebClientRequestConfig {
@@ -12,13 +11,12 @@ open class TmdbWebClientRequestConfig {
         return WebClient.builder()
             .baseUrl("https://api.themoviedb.org/3/discover/movie")
             .defaultUriVariables(
-                Map.of(
-                    "language", "en-US&",
-                    "sort_by", "popularity.desc",
-                    "include_adult", "false",
-                    "include_video", "false"
+                mapOf<String, String>(
+                    "language" to "en-US&",
+                    "sort_by" to "popularity.desc",
+                    "include_adult" to "false",
+                    "include_video" to "false"
                 )
-            )
-            .build()
+            ).build()
     }
 }

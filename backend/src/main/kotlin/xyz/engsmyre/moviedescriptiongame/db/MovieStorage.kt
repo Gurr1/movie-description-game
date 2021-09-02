@@ -7,11 +7,7 @@ import xyz.engsmyre.moviedescriptiongame.tmdb.domain.Movie
 import java.io.Serializable
 
 @RedisHash("Movie")
-data class MovieStorage(private val movie : Movie, @Id @Indexed private val storageKey : String) : Serializable {
-    fun storageKey() : String {
-        return storageKey
-    }
-
+data class MovieStorage(private val movie : Movie) : Serializable {
     fun getMovie() : Movie {
         return movie
     }
@@ -23,18 +19,17 @@ data class MovieStorage(private val movie : Movie, @Id @Indexed private val stor
         other as MovieStorage
 
         if (movie != other.movie) return false
-        if (storageKey != other.storageKey) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = movie.hashCode()
-        result = 31 * result + storageKey.hashCode()
+        result *= 31
         return result
     }
 
     override fun toString(): String {
-        return "MovieStorage(movie=$movie, storageKey='$storageKey')"
+        return "MovieStorage(movie=$movie)"
     }
 }

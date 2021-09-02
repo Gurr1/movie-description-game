@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import xyz.engsmyre.moviedescriptiongame.dto.GuessResponse
+import xyz.engsmyre.moviedescriptiongame.dto.UserGuess
 import xyz.engsmyre.moviedescriptiongame.dto.MovieDescription
 import xyz.engsmyre.moviedescriptiongame.dto.gameId.GameId
 import xyz.engsmyre.moviedescriptiongame.service.GameService
@@ -18,13 +18,14 @@ class GameLogicController(private val gameService: GameService, private val mess
     @MessageMapping("/next/")
     fun nextQuestion(@RequestBody gameId: GameId): ResponseEntity<MovieDescription> {
         gameService.nextMovie(gameId)
-        val description = gameService.getMovieDescription()
+        val description = gameService.getMovieDescription(gameId)
         messagingTemplate.convertAndSend(String.format("/topic/game/%s", gameId.gameId), description)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @MessageMapping("/guess/")
-    fun guessMovie(): ResponseEntity<GuessResponse>? {
-        return null
+    fun guessMovie(@RequestBody userGuess: UserGuess): ResponseEntity<Boolean> {
+        val isCorrectGuess = gameService.guessMovie(userGuess)
+        return ResponseEntity<Boolean>(isCorrectGuess, HttpStatus.OK)
     }
 }

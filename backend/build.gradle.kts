@@ -5,10 +5,10 @@ plugins {
     kotlin("jvm") version "1.4.32"
     id("org.springframework.boot") version "2.4.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-
-    kotlin("plugin.spring") version "1.4.32"
+    //kotlin("plugin.spring") version "1.4.32"
     application
 }
+
 
 group = "xyz.engsmyre"
 version = "0.0.1-SNAPSHOT"
@@ -16,6 +16,7 @@ version = "0.0.1-SNAPSHOT"
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     implementation("org.springframework.data:spring-data-redis:2.5.4")
@@ -29,6 +30,10 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.4")
 
+}
+
+application {
+    mainClass.set("xyz/engsmyre/moviedescriptiongame/MovieDescriptionGameApplication")
 }
 
 tasks.withType<KotlinCompile> {
