@@ -14,3 +14,9 @@ services:
     volumes:
       - "./app/src:/usr/src/app/src"
       - "./app/public:/usr/src/app/public"
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      REDIS_HOST: "0.0.0.0"

@@ -7,9 +7,10 @@ let gameSubsribers = [];
 let gameId = null;
 
 const startNewGame = function () {
+    const url = process.env.REACT_APP_BACKEND_IP
     stompClient = connectToWebsocket();
     stompClient.onConnect = (frame) => {
-        axios.get("http://localhost:8080/game/new")
+        axios.get(`http://${url}/game/new`)
             .then((response) => {
                 gameId = response.data.gameId;
                 stompClient.subscribe(`/topic/game/${gameId}`, handleGameUpdate);
@@ -19,6 +20,7 @@ const startNewGame = function () {
 }
 
 const handleGameUpdate = function (message) {
+    console.log(message)
     if (message.body != null) {
         gameSubsribers.forEach((sub) => {
             sub.updateFunction(message.body);

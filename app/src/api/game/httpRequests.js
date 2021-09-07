@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const requestNextMovie = function (gameId) {
+    const baseUrl = process.env.REACT_APP_BACKEND_IP;
     const path = "/game/next/" + gameId;
-    const url = "http://localhost:8080" + path;
+    const base_url = url + path;
     axios.get(url)
         .then(response => {
             console.log(response);

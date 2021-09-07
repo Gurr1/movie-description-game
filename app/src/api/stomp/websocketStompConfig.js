@@ -1,8 +1,9 @@
 import * as StompJs from "@stomp/stompjs"
 
 const createStompClient = function() {
+    const backendUrl = process.env.REACT_APP_BACKEND_IP;
     return new StompJs.Client({
-        brokerURL: "ws://localhost:8080/gs-guide-websockets"
+        brokerURL: `ws://${backendUrl}/gs-guide-websockets`
     });
 }
 
