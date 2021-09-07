@@ -1,12 +1,12 @@
-package xyz.engsmyre.moviedescriptiongame.tmdb.config
+package xyz.engsmyre.moviedescriptiongame.tmdb.request_config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-open class TmdbWebClientRequestConfig {
-    @Bean
+open class TmdbDiscoveryClient {
+    @Bean("TmdbDiscoveryClient")
     open fun tmdbWebClient(): WebClient {     // TODO Look over how the client can be configured
         return WebClient.builder()
             .baseUrl("https://api.themoviedb.org/3/discover/movie")

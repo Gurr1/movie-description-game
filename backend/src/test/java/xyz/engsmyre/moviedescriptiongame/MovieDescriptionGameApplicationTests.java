@@ -6,11 +6,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MovieDescriptionGameApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
-
-    @Test
-    public void
 
 }

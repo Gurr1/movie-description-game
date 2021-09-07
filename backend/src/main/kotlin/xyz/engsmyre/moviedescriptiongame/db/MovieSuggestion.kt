@@ -1,6 +1,7 @@
-package xyz.engsmyre.moviedescriptiongame.tmdb.domain
+package xyz.engsmyre.moviedescriptiongame.db
 
 import org.springframework.data.redis.core.RedisHash
+import xyz.engsmyre.moviedescriptiongame.tmdb.domain.Movie
 import java.time.LocalDateTime
 
 @RedisHash("MovieSuggestion")

@@ -29,6 +29,9 @@ class Movie internal constructor() : Serializable {
     @JsonProperty("release_date")
     var releaseDate: LocalDate? = null
 
+    @JsonProperty("")
+    var coverArtPath : String? = null
+
 
     fun getnVotes(): Int {
         return nVotes

@@ -1,5 +1,6 @@
 package xyz.engsmyre.moviedescriptiongame.tmdb.repository
 
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.util.MultiValueMap
@@ -9,9 +10,10 @@ import xyz.engsmyre.moviedescriptiongame.tmdb.domain.Movie
 import xyz.engsmyre.moviedescriptiongame.tmdb.domain.PopularMovieRequest
 import xyz.engsmyre.moviedescriptiongame.tmdb.domain.TmdbMovieResponse
 import xyz.engsmyre.moviedescriptiongame.tmdb.exception.TmdbCommunicationFailedException
+import xyz.engsmyre.moviedescriptiongame.tmdb.repository.helpers.RequestHelper.doBlockingDiscoveryRequest
 
 @Component
-class TmdbRepository(private val tmdbWebClient: WebClient) : MovieRepository {
+class PopularMoviesTmdbRepository(@Qualifier("TmdbDiscoveryClient") private val tmdbWebClient: WebClient) : PopularMoviesRepository {
     @Value("\${tmdb.api_key}")
     private val apiKey: String? = null
 
@@ -26,34 +28,13 @@ class TmdbRepository(private val tmdbWebClient: WebClient) : MovieRepository {
             page,
             voteCount
         ).createParamsMap()
-        return doBlockingDiscoveryRequest(webClientParams).movies!!
+        return doBlockingDiscoveryRequest(webClientParams, tmdbWebClient).movies!!
     }
 
     @get:Throws(TmdbCommunicationFailedException::class)
     override val popularMoviesPageCount: Int
         get() {
             val webClientParams = PopularMovieRequest(apiKey!!, voteCount).createParamsMap()
-            return doBlockingDiscoveryRequest(webClientParams).getnPages()
+            return doBlockingDiscoveryRequest(webClientParams, tmdbWebClient).getnPages()
         }
-
-
-    private fun doBlockingDiscoveryRequest(webClientParams: MultiValueMap<String, String>): TmdbMovieResponse {
-        try {
-            val movieResponse = createBlockingDiscoveryRequest(webClientParams)
-            if (movieResponse != null) {
-                return movieResponse
-            }
-            throw TmdbCommunicationFailedException("Could not communicate or deserialize response from TMDB")
-        } catch (e: Exception) {
-            throw TmdbCommunicationFailedException(e.message)
-        }
-    }
-
-    private fun createBlockingDiscoveryRequest(webClientParams: MultiValueMap<String, String>): TmdbMovieResponse? {
-        return tmdbWebClient.get()
-            .uri { uriBuilder: UriBuilder -> uriBuilder.queryParams(webClientParams).build() }
-            .retrieve()
-            .bodyToMono(TmdbMovieResponse::class.java)
-            .block()
-    }
 }

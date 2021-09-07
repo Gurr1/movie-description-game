@@ -29,7 +29,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-starter-actuator:2.5.4")
     developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.4")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.4")
-
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
 }
 
 application {
